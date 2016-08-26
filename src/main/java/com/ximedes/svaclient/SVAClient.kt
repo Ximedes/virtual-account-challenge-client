@@ -10,7 +10,7 @@ fun main( args : Array<String>) {
     val account1 =  createAccount( 1000 )
     val account2 =  createAccount( 0 )
 
-    transfer( account1.accountId , account2.accountId , 1000 , expectedStatus = "SUCCESS")
+    transfer( account1.accountId , account2.accountId , 1000 , expectedStatus = "CONFIRMED")
 
 
     if ( readAccount( "/account/" + account1.accountId , silent = true ).balance == -1000 &&  readAccount( "/account/" + account2.accountId , silent = true ).balance == 1000 ) {

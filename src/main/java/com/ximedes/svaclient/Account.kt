@@ -35,8 +35,13 @@ fun createAccount( overdraft : Int ) : Account {
     val endpoint = baseUrl.toString() + "/account"
 
     println("""CREATING account. Sending {"overdraft": $overdraft } to endpoint $endpoint""")
+    val headers = hashMapOf( Pair("Content-Type", "application/json") , Pair("Accept", "application/json") )
+    val payload = mapOf("overdraft" to overdraft)
 
-    val response = post( endpoint , data = """{"overdraft": $overdraft }""")
+    val response = post( endpoint , json = payload, headers = headers )
+    println( response  )
+    println( response.request.headers  )
+
     if (response.statusCode == 202) {
         println("-PASS : statuscode was ${response.statusCode}")
         val url = response.headers["location"].orEmpty()
@@ -49,7 +54,6 @@ fun createAccount( overdraft : Int ) : Account {
     } else {
         println("-FAIL : statuscode was ${response.statusCode} , but 202 was expected")
         exitProcess(1)
-        return Account("ERROR", 0, 0)
     }
 
 

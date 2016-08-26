@@ -41,7 +41,10 @@ fun transfer( src : String , dest : String, amount : Int , expectedStatus: Strin
     val endpoint = baseUrl.toString() + "/transfer"
     println( """TRANSFER funds: Sending {"from": "$src" , "to": "$dest", "amount": $amount } to $endpoint""" )
 
-    val response = post( endpoint , data = """{"from": "$src" , "to": "$dest", "amount": $amount }""")
+    val headers = hashMapOf( Pair("Content-Type", "application/json") , Pair("Accept", "application/json") )
+    val payload = mapOf("from" to src , "to" to dest, "amount" to amount)
+
+    val response = post( endpoint , json = payload, headers= headers)
     println( if (response.statusCode == 202 )
         "-PASS : response code is ${response.statusCode.toInt()}"
     else
